@@ -4,34 +4,45 @@
     {
         static void Main(string[] args)
         {
-            int myInt = 5;
-            int mySecondInt = 10;
+            // Example array for foreach loop
+            string[] fruits = { "Apple", "Banana", "Cherry" };
 
-            if (mySecondInt > myInt) {
-                Console.WriteLine("Second int is greater");
+            // For Loop
+            Console.WriteLine("For Loop:");
+            for (int i = 0; i < 5; i++)
+            {
+                Console.WriteLine($"Iteration {i}");
             }
 
-            string firstStr = "cow";
-            string secondStr = "cow";
-
-            if (firstStr == secondStr) {
-                Console.WriteLine("Equal");
-            } else if (firstStr.ToLower() == secondStr.ToLower()) {
-                Console.WriteLine("Equal without case sensitivity");
-            } else {
-                Console.WriteLine("Not equal");
+            // Foreach Loop
+            Console.WriteLine("\nForeach Loop:");
+            foreach (var fruit in fruits)
+            {
+                Console.WriteLine(fruit);
             }
 
-            string option = "one";
-
-            switch(option) {
-                case "one": Console.WriteLine("One");
-                            break;
-                case "two": Console.WriteLine("Two");
-                            break;     
-                default   : Console.WriteLine("Invalid Option");
-                            break;      
+            // While Loop
+            Console.WriteLine("\nWhile Loop:");
+            int counter = 0;
+            while (counter < 5)
+            {
+                Console.WriteLine($"Counter {counter}");
+                counter++;
             }
+
+            // Do-While Loop
+            Console.WriteLine("\nDo-While Loop:");
+            int number = 0;
+            do
+            {
+                Console.WriteLine($"Number {number}");
+                number++;
+            } while (number < 5);
+
+            int[] numbers = new int[] { 10, 45, 65, 89, 78};
+
+            int sum = numbers.Sum();
+            Console.WriteLine(sum);
         }
     }
 }
