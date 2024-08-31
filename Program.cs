@@ -4,42 +4,69 @@
     {
         static void Main(string[] args)
         {
-            string[] myGrocery = new string[2];
+            int myInt = 5;
+            int mySecondInt = 10;
 
-            myGrocery[0] = "Apple";
-            myGrocery[1] = "Ice-Cream";
+            Console.WriteLine(myInt.Equals(mySecondInt));
+            Console.WriteLine(myInt.Equals(mySecondInt / 2));
 
-            Console.WriteLine(myGrocery[0]);
-            Console.WriteLine(myGrocery[1]);
+            Console.WriteLine(myInt == mySecondInt);
+            Console.WriteLine(myInt == mySecondInt / 2);
 
-            string[] myGrocery2 = { "Mango", "Choclate" };
+            Console.WriteLine(myInt != mySecondInt);
+            Console.WriteLine(myInt != mySecondInt / 2);
 
-            Console.WriteLine(myGrocery2[0]);
-            Console.WriteLine(myGrocery2[1]);
+            Console.WriteLine(myInt >= mySecondInt);
+            Console.WriteLine(myInt > mySecondInt);
+            Console.WriteLine(myInt <= mySecondInt);
+            Console.WriteLine(myInt < mySecondInt);
 
-            List<string> myGroceryList = new List<string> { "Milk", "Cheese" };
-            Console.WriteLine(myGroceryList[0]);
-            Console.WriteLine(myGroceryList[1]);
+            Console.WriteLine(myInt);
+            myInt++;
+            Console.WriteLine(myInt);
 
-            myGroceryList.Add("Oranges");
-            Console.WriteLine(myGroceryList[2]);
+            myInt += 7;
+            Console.WriteLine(myInt);
 
-            IEnumerable<string> myGroceryIEnumerable = myGroceryList;
-            Console.WriteLine(myGroceryIEnumerable.First());
+            myInt -= 8;
+            Console.WriteLine(myInt);
 
-            string[,] my2DArray = new string[,] {
-                { "Mango", "Choclate" },
-                { "Milk", "Cheese" }
-            };
+            Console.WriteLine(myInt * mySecondInt);
+            Console.WriteLine(myInt / mySecondInt);
+            Console.WriteLine(myInt + mySecondInt);
+            Console.WriteLine(myInt - mySecondInt);
 
-            Console.WriteLine(my2DArray[0, 1]);
+            //PEMDAS ORDER
+            Console.WriteLine(5 + 5 * 10);
+            Console.WriteLine((5 + 5) * 10);
 
-            Dictionary<string, string[]> myGroceryDict = new Dictionary<string, string[]> {
-                { "Dairy", new string[] { "Milk", "Cheese" }},
-                { "Market", new string[] { "Choclate", "Mango", "Oranges" }}
-            };
+            Console.WriteLine($"Pow of 5: {Math.Pow(5, 2)}");
+            Console.WriteLine($"Sqrt of 25: {Math.Sqrt(25)}");
 
-            Console.WriteLine(myGroceryDict["Market"][0]);
+            string str = "\"first ";
+            Console.WriteLine(str);
+
+            str += "second ";
+            Console.WriteLine(str);
+
+            str = str + "third\"";
+            Console.WriteLine(str);
+
+            string[] splitArray = str.Split(" ");
+            Console.WriteLine(splitArray[0]);
+            Console.WriteLine(splitArray[1]);
+            Console.WriteLine(splitArray[2]);
+
+
+            Console.WriteLine(true && true);
+            Console.WriteLine(true && false);
+            Console.WriteLine(false && true);
+            Console.WriteLine(false && false);
+
+            Console.WriteLine(true || true);
+            Console.WriteLine(true || false);
+            Console.WriteLine(false || true);
+            Console.WriteLine(false || false);
         }
     }
 }
