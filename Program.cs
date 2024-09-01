@@ -10,32 +10,42 @@ namespace HelloWorld
     internal class Program
     {
         static void Main(string[] args)
-        {   
-            IConfiguration config = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .Build();
+        {
+            //     IConfiguration config = new ConfigurationBuilder()
+            //         .AddJsonFile("appsettings.json")
+            //         .Build();
 
-            DataContextEF dataContextEF = new DataContextEF(config);
-            Computer myComputer = new Computer() {
-                MotherBoard = "Z690",
-                HasWifi = true,
-                HasLTE = true,
-                ReleaseDate = DateTime.Now,
-                Price = 343.87m,
-                VideoCard = "RTX 2060"
-            };
+            //     DataContextEF dataContextEF = new DataContextEF(config);
+            //     Computer myComputer = new Computer() {
+            //         MotherBoard = "Z690",
+            //         HasWifi = true,
+            //         HasLTE = true,
+            //         ReleaseDate = DateTime.Now,
+            //         Price = 343.87m,
+            //         VideoCard = "RTX 2060"
+            //     };
 
-            myComputer.HasWifi = false;
+            //     myComputer.HasWifi = false;
 
-            var result = dataContextEF.Add(myComputer);
-            dataContextEF.SaveChanges();
-           
-            IEnumerable<Computer> computers = dataContextEF.Computer.ToList();
+            //     var result = dataContextEF.Add(myComputer);
+            //     dataContextEF.SaveChanges();
 
-            Console.WriteLine("'Id', 'MotherBoard', 'CPUCores', 'HasWifi','HasLTE','ReleaseDate','Price','VideoCard'");
-            foreach(Computer currComputer in computers) {
-                Console.WriteLine($"'{currComputer.ComputerId}','{currComputer.MotherBoard}','{currComputer.CPUCores}','{currComputer.HasWifi}','{currComputer.HasLTE}','{currComputer.ReleaseDate}','{currComputer.Price}','{currComputer.VideoCard}'");
-            }
+            //     IEnumerable<Computer> computers = dataContextEF.Computer.ToList();
+
+            //     Console.WriteLine("'Id', 'MotherBoard', 'CPUCores', 'HasWifi','HasLTE','ReleaseDate','Price','VideoCard'");
+            //     foreach(Computer currComputer in computers) {
+            //         Console.WriteLine($"'{currComputer.ComputerId}','{currComputer.MotherBoard}','{currComputer.CPUCores}','{currComputer.HasWifi}','{currComputer.HasLTE}','{currComputer.ReleaseDate}','{currComputer.Price}','{currComputer.VideoCard}'");
+            //     }
+
+            string writeContent = "HERE is the first line\nThen second\nSo third\n";
+            // File.WriteAllText("log.txt", writeContent);
+
+            using StreamWriter openFile = new("log.txt", append: true);
+            openFile.WriteLine(writeContent);
+            openFile.Close();
+
+            string fileContent = File.ReadAllText("log.txt");
+            Console.WriteLine(fileContent);
         }
     }
 }
