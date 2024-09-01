@@ -4,8 +4,9 @@ namespace HelloWorld.Models
     {
         // private string _motherboard;
         // private string MotherBoard { get { return _motherboard; } set { _motherboard = value; } }
+        public int ComputerId { get; set; }
         public string MotherBoard { get; set; } = String.Empty;
-        public int CPUCores { get; set; }
+        public int? CPUCores { get; set; } = 0;
         public bool HasWifi { get; set; }
         public bool HasLTE { get; set; }
         public DateTime ReleaseDate { get; set; }

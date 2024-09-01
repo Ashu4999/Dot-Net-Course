@@ -10,12 +10,7 @@ namespace HelloWorld
     {
         static void Main(string[] args)
         {   
-            DataContextDapper dapper = new DataContextDapper();
-
-            // string sqlCommand = "SELECT GETDATE()";
-            // DateTime rightNow = dapper.LoadDataSingle<DateTime>(sqlCommand);
-            // Console.WriteLine(rightNow);
-
+            DataContextEF dataContextEF = new DataContextEF();
             Computer myComputer = new Computer() {
                 MotherBoard = "Z690",
                 HasWifi = true,
@@ -26,41 +21,15 @@ namespace HelloWorld
             };
 
             myComputer.HasWifi = false;
-            Console.WriteLine(myComputer.MotherBoard);
-            Console.WriteLine(myComputer.HasLTE);
-            Console.WriteLine(myComputer.HasWifi);
-            Console.WriteLine(myComputer.ReleaseDate);
-            Console.WriteLine(myComputer.Price);
-            Console.WriteLine(myComputer.VideoCard);
 
-            string sqlQuery = $@"INSERT INTO TutorialAppSchema.Computer (
-                MotherBoard,
-                HasWifi,
-                HasLTE,
-                ReleaseDate,
-                Price,
-                VideoCard
-            ) VALUES(
-                '{myComputer.MotherBoard}',
-                '{myComputer.HasWifi}',
-                '{myComputer.HasLTE}',
-                '{myComputer.ReleaseDate}',
-                '{myComputer.Price}',
-                '{myComputer.VideoCard}'
-            );";
-        
-            Console.WriteLine(sqlQuery);
-            int result = dapper.ExecuteSqlWithCount(sqlQuery);
-            Console.WriteLine(result);
-            // bool result = dapper.ExecuteSql(sqlQuery);
-            // Console.WriteLine(result);
+            var result = dataContextEF.Add(myComputer);
+            dataContextEF.SaveChanges();
+           
+            IEnumerable<Computer> computers = dataContextEF.Computer.ToList();
 
-            string readQuery = @"SELECT * FROM TutorialAppSchema.Computer";
-            IEnumerable<Computer> computers = dapper.LoadData<Computer>(readQuery);
-
-            Console.WriteLine("MotherBoard','HasWifi','HasLTE','ReleaseDate','Price','VideoCard'");
+            Console.WriteLine("'Id', 'MotherBoard', 'CPUCores', 'HasWifi','HasLTE','ReleaseDate','Price','VideoCard'");
             foreach(Computer currComputer in computers) {
-                Console.WriteLine($"'{currComputer.MotherBoard}','{currComputer.MotherBoard}','{currComputer.HasWifi}','{currComputer.HasLTE}','{currComputer.ReleaseDate}','{currComputer.Price}','{currComputer.VideoCard}'");
+                Console.WriteLine($"'{currComputer.ComputerId}','{currComputer.MotherBoard}','{currComputer.CPUCores}','{currComputer.HasWifi}','{currComputer.HasLTE}','{currComputer.ReleaseDate}','{currComputer.Price}','{currComputer.VideoCard}'");
             }
         }
     }
