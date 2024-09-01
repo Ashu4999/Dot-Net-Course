@@ -1,25 +1,67 @@
-﻿namespace HelloWorld
+﻿using System.Data;
+using Dapper;
+using HelloWorld.Data;
+using HelloWorld.Models;
+using Microsoft.Data.SqlClient;
+
+namespace HelloWorld
 {
     internal class Program
     {
         static void Main(string[] args)
-        {
-            int[] numArray = new int[] { 10, 45, 65, 89, 78, 45 };
-            int[] numArray1 = new int[] { 10, 45, 45, 39, 44, 45 };
+        {   
+            DataContextDapper dapper = new DataContextDapper();
 
-            static int GetSum(int[] numbers)
-            {
-                int total = 0;
-                IEnumerable<int> iEnumerableNumbers = numbers;
-                foreach (int number in iEnumerableNumbers)
-                {
-                    total += number;
-                }
-                return total;
+            // string sqlCommand = "SELECT GETDATE()";
+            // DateTime rightNow = dapper.LoadDataSingle<DateTime>(sqlCommand);
+            // Console.WriteLine(rightNow);
+
+            Computer myComputer = new Computer() {
+                MotherBoard = "Z690",
+                HasWifi = true,
+                HasLTE = true,
+                ReleaseDate = DateTime.Now,
+                Price = 343.87m,
+                VideoCard = "RTX 2060"
+            };
+
+            myComputer.HasWifi = false;
+            Console.WriteLine(myComputer.MotherBoard);
+            Console.WriteLine(myComputer.HasLTE);
+            Console.WriteLine(myComputer.HasWifi);
+            Console.WriteLine(myComputer.ReleaseDate);
+            Console.WriteLine(myComputer.Price);
+            Console.WriteLine(myComputer.VideoCard);
+
+            string sqlQuery = $@"INSERT INTO TutorialAppSchema.Computer (
+                MotherBoard,
+                HasWifi,
+                HasLTE,
+                ReleaseDate,
+                Price,
+                VideoCard
+            ) VALUES(
+                '{myComputer.MotherBoard}',
+                '{myComputer.HasWifi}',
+                '{myComputer.HasLTE}',
+                '{myComputer.ReleaseDate}',
+                '{myComputer.Price}',
+                '{myComputer.VideoCard}'
+            );";
+        
+            Console.WriteLine(sqlQuery);
+            int result = dapper.ExecuteSqlWithCount(sqlQuery);
+            Console.WriteLine(result);
+            // bool result = dapper.ExecuteSql(sqlQuery);
+            // Console.WriteLine(result);
+
+            string readQuery = @"SELECT * FROM TutorialAppSchema.Computer";
+            IEnumerable<Computer> computers = dapper.LoadData<Computer>(readQuery);
+
+            Console.WriteLine("MotherBoard','HasWifi','HasLTE','ReleaseDate','Price','VideoCard'");
+            foreach(Computer currComputer in computers) {
+                Console.WriteLine($"'{currComputer.MotherBoard}','{currComputer.MotherBoard}','{currComputer.HasWifi}','{currComputer.HasLTE}','{currComputer.ReleaseDate}','{currComputer.Price}','{currComputer.VideoCard}'");
             }
-
-            Console.WriteLine(GetSum(numArray));
-            Console.WriteLine(GetSum(numArray1));
         }
     }
 }
