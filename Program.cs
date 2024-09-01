@@ -4,45 +4,22 @@
     {
         static void Main(string[] args)
         {
-            // Example array for foreach loop
-            string[] fruits = { "Apple", "Banana", "Cherry" };
+            int[] numArray = new int[] { 10, 45, 65, 89, 78, 45 };
+            int[] numArray1 = new int[] { 10, 45, 45, 39, 44, 45 };
 
-            // For Loop
-            Console.WriteLine("For Loop:");
-            for (int i = 0; i < 5; i++)
+            static int GetSum(int[] numbers)
             {
-                Console.WriteLine($"Iteration {i}");
+                int total = 0;
+                IEnumerable<int> iEnumerableNumbers = numbers;
+                foreach (int number in iEnumerableNumbers)
+                {
+                    total += number;
+                }
+                return total;
             }
 
-            // Foreach Loop
-            Console.WriteLine("\nForeach Loop:");
-            foreach (var fruit in fruits)
-            {
-                Console.WriteLine(fruit);
-            }
-
-            // While Loop
-            Console.WriteLine("\nWhile Loop:");
-            int counter = 0;
-            while (counter < 5)
-            {
-                Console.WriteLine($"Counter {counter}");
-                counter++;
-            }
-
-            // Do-While Loop
-            Console.WriteLine("\nDo-While Loop:");
-            int number = 0;
-            do
-            {
-                Console.WriteLine($"Number {number}");
-                number++;
-            } while (number < 5);
-
-            int[] numbers = new int[] { 10, 45, 65, 89, 78};
-
-            int sum = numbers.Sum();
-            Console.WriteLine(sum);
+            Console.WriteLine(GetSum(numArray));
+            Console.WriteLine(GetSum(numArray1));
         }
     }
 }
