@@ -4,18 +4,24 @@ using System.Linq;
 using System.Threading.Tasks;
 using HelloWorld.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace HelloWorld.Data
 {
     public class DataContextEF : DbContext
     {
+        private readonly string? _connectionString;
+        public DataContextEF(IConfiguration config)
+        {
+            _connectionString = config.GetConnectionString("DefaultConnection");
+        }
         public DbSet<Computer> Computer { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseSqlServer(
-                    "Data Source=ASHUTOSH\\SQLEXPRESS;Initial Catalog=DOTNETCOURSE;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False",
+                    _connectionString,
                     options => options.EnableRetryOnFailure()
                 );
             }

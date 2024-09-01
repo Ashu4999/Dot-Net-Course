@@ -3,6 +3,7 @@ using Dapper;
 using HelloWorld.Data;
 using HelloWorld.Models;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 
 namespace HelloWorld
 {
@@ -10,7 +11,11 @@ namespace HelloWorld
     {
         static void Main(string[] args)
         {   
-            DataContextEF dataContextEF = new DataContextEF();
+            IConfiguration config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            DataContextEF dataContextEF = new DataContextEF(config);
             Computer myComputer = new Computer() {
                 MotherBoard = "Z690",
                 HasWifi = true,
