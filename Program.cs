@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System.Text.Json;
+using AutoMapper;
 using Dapper;
 using HelloWorld.Data;
 using HelloWorld.Models;
@@ -50,49 +51,82 @@ namespace HelloWorld
             // string fileContent = File.ReadAllText("log.txt");
             // Console.WriteLine(fileContent);
 
-            string computersJson = File.ReadAllText("Computers.json");
+            // string computersJson = File.ReadAllText("Computers.json");
 
-            JsonSerializerOptions options = new JsonSerializerOptions()
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            };
+            // JsonSerializerOptions options = new JsonSerializerOptions()
+            // {
+            //     PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            // };
 
             //System.Text.Json.JsonSerializer - inbuild 
             //JsonConvert - (Newtonsoft.Json pkg)
-            IEnumerable<Computer>? computerSystem = System.Text.Json.JsonSerializer.Deserialize<IEnumerable<Computer>>(computersJson, options);
+            // IEnumerable<Computer>? computerSystem = System.Text.Json.JsonSerializer.Deserialize<IEnumerable<Computer>>(computersJson, options);
 
-            IEnumerable<Computer>? computerNewtonSoft = JsonConvert.DeserializeObject<IEnumerable<Computer>>(computersJson);
+            // IEnumerable<Computer>? computerNewtonSoft = JsonConvert.DeserializeObject<IEnumerable<Computer>>(computersJson);
 
-            if (computerNewtonSoft != null)
+            // if (computerNewtonSoft != null)
+            // {
+            //     foreach (Computer currComputer in computerNewtonSoft)
+            //     {
+            //         Computer computerObject = new Computer()
+            //         {
+            //             Motherboard = currComputer.Motherboard,
+            //             CPUCores = currComputer.CPUCores,
+            //             HasWifi = currComputer.HasWifi,
+            //             HasLTE = currComputer.HasLTE,
+            //             ReleaseDate = currComputer.ReleaseDate,
+            //             Price = currComputer.Price,
+            //             VideoCard = currComputer.VideoCard
+            //         };
+
+            //         dataContextEF.Computer.Add(computerObject);
+            //     }
+            //     dataContextEF.SaveChanges();
+            // }
+
+            // JsonSerializerSettings settings = new JsonSerializerSettings()
+            // {
+            //     ContractResolver = new CamelCasePropertyNamesContractResolver()
+            // };
+
+            // string computerCopyNewtonSoft = JsonConvert.SerializeObject(computerNewtonSoft, settings);
+            // File.WriteAllText("computerCopyNewtonSoft.txt", computerCopyNewtonSoft);
+
+            // string computerCopySystem = System.Text.Json.JsonSerializer.Serialize(computerNewtonSoft, options);
+            // File.WriteAllText("computerCopySystem.txt", computerCopySystem);
+
+            string computersSnakeJson = File.ReadAllText("ComputersSnake.json");
+
+            Mapper mapper = new Mapper(new MapperConfiguration((cfg) =>
             {
-                foreach (Computer currComputer in computerNewtonSoft)
-                {
-                    Computer computerObject = new Computer()
-                    {
-                        Motherboard = currComputer.Motherboard,
-                        CPUCores = currComputer.CPUCores,
-                        HasWifi = currComputer.HasWifi,
-                        HasLTE = currComputer.HasLTE,
-                        ReleaseDate = currComputer.ReleaseDate,
-                        Price = currComputer.Price,
-                        VideoCard = currComputer.VideoCard
-                    };
+                cfg.CreateMap<ComputerSnake, Computer>().ForMember(destination => destination.ComputerId, options => options.MapFrom(source => source.computer_id));
+                cfg.CreateMap<ComputerSnake, Computer>().ForMember(destination => destination.Motherboard, options => options.MapFrom(source => source.motherboard));
+                cfg.CreateMap<ComputerSnake, Computer>().ForMember(destination => destination.CPUCores, options => options.MapFrom(source => source.cpu_cores));
+                cfg.CreateMap<ComputerSnake, Computer>().ForMember(destination => destination.HasWifi, options => options.MapFrom(source => source.has_wifi));
+                cfg.CreateMap<ComputerSnake, Computer>().ForMember(destination => destination.HasLTE, options => options.MapFrom(source => source.has_lte));
+                cfg.CreateMap<ComputerSnake, Computer>().ForMember(destination => destination.ReleaseDate, options => options.MapFrom(source => source.release_date));
+                cfg.CreateMap<ComputerSnake, Computer>().ForMember(destination => destination.Price, options => options.MapFrom(source => source.price));
+                cfg.CreateMap<ComputerSnake, Computer>().ForMember(destination => destination.VideoCard, options => options.MapFrom(source => source.video_card));
+            }));
+            
+            IEnumerable<ComputerSnake>? computerSystem = System.Text.Json.JsonSerializer.Deserialize<IEnumerable<ComputerSnake>>(computersSnakeJson);
 
-                    dataContextEF.Computer.Add(computerObject);
+            if (computerSystem != null) {
+                IEnumerable<Computer> computerResult = mapper.Map<IEnumerable<Computer>>(computerSystem);
+
+                foreach(Computer currComputer in computerResult) {
+                    Console.WriteLine($"{currComputer.ComputerId} {currComputer.Motherboard} {currComputer.CPUCores} {currComputer.HasWifi} {currComputer.HasLTE} {currComputer.ReleaseDate} {currComputer.Price} {currComputer.VideoCard}");
                 }
-                dataContextEF.SaveChanges();
             }
 
-            JsonSerializerSettings settings = new JsonSerializerSettings()
-            {
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
-            };
+             IEnumerable<Computer>? computerSystemJsonPropertyName = System.Text.Json.JsonSerializer.Deserialize<IEnumerable<Computer>>(computersSnakeJson);
+             if (computerSystemJsonPropertyName != null) {
+                IEnumerable<Computer> computerResult = mapper.Map<IEnumerable<Computer>>(computerSystemJsonPropertyName);
 
-            string computerCopyNewtonSoft = JsonConvert.SerializeObject(computerNewtonSoft, settings);
-            File.WriteAllText("computerCopyNewtonSoft.txt", computerCopyNewtonSoft);
-
-            string computerCopySystem = System.Text.Json.JsonSerializer.Serialize(computerNewtonSoft, options);
-            File.WriteAllText("computerCopySystem.txt", computerCopySystem);
+                foreach(Computer currComputer in computerResult) {
+                    Console.WriteLine($"{currComputer.ComputerId} {currComputer.Motherboard} {currComputer.CPUCores} {currComputer.HasWifi} {currComputer.HasLTE} {currComputer.ReleaseDate} {currComputer.Price} {currComputer.VideoCard}");
+                }
+            }
         }
     }
 }
